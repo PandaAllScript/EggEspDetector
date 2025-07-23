@@ -1,0 +1,47 @@
+--// EGG ESP DETECTOR SCRIPT
+-- Made by -Panda
+
+local function createEggESP(egg)
+    local bbGui = Instance.new("BillboardGui")
+    bbGui.Name = "EggESP"
+    bbGui.Adornee = egg
+    bbGui.Size = UDim2.new(0, 100, 0, 30)
+    bbGui.StudsOffset = Vector3.new(0, 2, 0)
+    bbGui.AlwaysOnTop = true
+
+    local label = Instance.new("TextLabel")
+    label.Size = UDim2.new(1, 0, 1, 0)
+    label.BackgroundTransparency = 1
+    label.Text = "🥚 Unhatched Egg"
+    label.TextColor3 = Color3.fromRGB(255, 255, 0)
+    label.TextStrokeTransparency = 0.5
+    label.TextScaled = true
+    label.Parent = bbGui
+
+    bbGui.Parent = egg
+end
+
+local function scanForEggs()
+    for _, v in ipairs(workspace:GetDescendants()) do
+        if v:IsA("Model") or v:IsA("Part") then
+            if string.lower(v.Name):match("egg") and not v:FindFirstChild("EggESP") then
+                createEggESP(v)
+            end
+        end
+    end
+end
+
+scanForEggs()
+
+workspace.DescendantAdded:Connect(function(desc)
+    if desc:IsA("Model") or desc:IsA("Part") then
+        if string.lower(desc.Name):match("egg") then
+            task.wait(1)
+            if not desc:FindFirstChild("EggESP") then
+                createEggESP(desc)
+            end
+        end
+    end
+end)
+
+print("[Egg ESP Loaded] Made by -Panda")
