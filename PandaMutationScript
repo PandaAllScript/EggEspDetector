@@ -1,0 +1,46 @@
+--// TOGGLE MUTATION SCRIPT -- Made by -Panda
+
+local Players = game:GetService("Players") local LocalPlayer = Players.LocalPlayer local Character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait() local Mutations = {"Fire", "Ice", "Lightning", "Dark", "Golden"} -- Add any mutation types here
+
+local currentIndex = 1
+
+local function toggleMutation() currentIndex = currentIndex + 1 if currentIndex > #Mutations then currentIndex = 1 end
+
+local selectedMutation = Mutations[currentIndex]
+print("[Mutation Switched] Current: " .. selectedMutation)
+
+-- Fake mutation effect (visual only)
+if Character:FindFirstChild("MutationEffect") then
+    Character.MutationEffect:Destroy()
+end
+
+local effect = Instance.new("BillboardGui")
+effect.Name = "MutationEffect"
+effect.Size = UDim2.new(0, 200, 0, 50)
+effect.StudsOffset = Vector3.new(0, 3, 0)
+effect.Adornee = Character:FindFirstChild("Head")
+effect.AlwaysOnTop = true
+
+local label = Instance.new("TextLabel")
+label.Size = UDim2.new(1, 0, 1, 0)
+label.BackgroundTransparency = 1
+label.Text = selectedMutation .. " Mutation"
+label.TextColor3 = Color3.new(1, 1, 0)
+label.TextScaled = true
+label.Font = Enum.Font.GothamBold
+label.Parent = effect
+
+effect.Parent = Character
+
+end
+
+-- GUI local screenGui = Instance.new("ScreenGui") screenGui.Name = "ToggleMutationGui" screenGui.ResetOnSpawn = false screenGui.Parent = LocalPlayer:WaitForChild("PlayerGui")
+
+local toggleBtn = Instance.new("TextButton") toggleBtn.Size = UDim2.new(0, 200, 0, 50) toggleBtn.Position = UDim2.new(0, 10, 0, 170) toggleBtn.BackgroundColor3 = Color3.fromRGB(70, 70, 70) toggleBtn.TextColor3 = Color3.new(1, 1, 1) toggleBtn.Text = "Toggle Mutation" toggleBtn.Font = Enum.Font.GothamBold toggleBtn.TextScaled = true toggleBtn.Parent = screenGui
+
+toggleBtn.MouseButton1Click:Connect(toggleMutation)
+
+-- Credit label local credit = Instance.new("TextLabel") credit.Size = UDim2.new(0, 200, 0, 25) credit.Position = UDim2.new(0, 10, 0, 230) credit.BackgroundTransparency = 1 credit.Text = "Made by -Panda" credit.TextColor3 = Color3.fromRGB(0, 255, 100) credit.Font = Enum.Font.GothamBold credit.TextScaled = true credit.Parent = screenGui
+
+print("[Toggle Mutation Script Loaded] Made by -Panda")
+
